@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple React App</title>
+  <script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    .heading {
+      color: purple;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <div id="lakes"></div>
+  <div id="foo"></div>
+  <div id="bar"></div>
+  <div id="props"></div>
+  <div id="component"></div>
+  <script type="text/javascript">
+    ReactDOM.render(
+      React.createElement(
+        "div",
+        null,
+        React.createElement(
+          "h1",
+          { "style": { "color": "red" } },
+          "Hello World"
+        )
+      ),
+      document.getElementById("root")
+    )
+  </script>
+  <script type="text/babel">
+
+    // const Hello = (props) => {
+    // Use destructuring
+    const Hello = ({ library, message }) => {
+      return (
+        <div className="heading">
+          <h1>Welcome to {library || "React"}</h1>
+          <p>{message}</p>
+        </div>
+      )
+    }
+
+    const lakeList = [
+      { id: 1, name: "Echo Lake", trailhead: "Echo Lake" },
+      { id: 2, name: "Maud Lake", trailhead: "Wright's Lake" },
+      { id: 3, name: "Cascade Lake", trailhead: "Bayview" }
+    ]
+    const Lakes = (props) => (
+      <div>
+        <h1>{props.header}</h1>
+        <ul>
+          {props.lakes.map(lake =>
+            <li key={lake.id}>{lake.name} | Trailhead: {lake.trailhead}</li>
+          )}
+        </ul>
+      </div>
+    )
+    ReactDOM.render(
+      <Lakes lakes={lakeList} header="List of Lakes" />,
+      document.getElementById("lakes")
+    )
+
+    class App extends React.Component {
+      state = {
+        loggedIn: false
+      }
+
+      static defaultProps = {"charlie": "murphy"};
+
+      logIn = () => this.setState({ loggedIn: true })
+      logOut = () => this.setState({ loggedIn: false })
+
+      render() {
+        return (
+          <div>
+            <button onClick={this.logIn}>Log In</button>
+            <button onClick={this.logOut}>Log Out</button>
+            <div>The user is {this.state.loggedIn ? "logged in" : "not logged in"}.</div>
+            <Hello library="I don't know" message="nevermind" />
+            <Hello library="I do know" message="Pay attention" meta="foo" />
+          </div>
+        )
+      }
+    }
+
+    // App.defaultProps = {"charlie": "murphy"}; // Add defaultProps as a static property
+    // See static property in App class - it is equivilent
+
+    let city = "Madrid";
+    ReactDOM.render(
+      <h1 className="heading">Hello {city}</h1>,
+      document.getElementById("foo")
+    );
+
+    ReactDOM.render(
+      <Hello />,
+      document.getElementById("bar")
+    )
+
+    ReactDOM.render(
+      <Hello library="Something Else" message="Enjoy" />,
+      document.getElementById("props")
+    );
+
+    ReactDOM.render(
+      <App />,
+      document.getElementById("component")
+    )
+  </script>
+</body>
+
+</html>
